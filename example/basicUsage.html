@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+    <title>Network | Basic usage</title>
+
+    <script type="text/javascript" src="../bower_components/vis/dist/vis.js"></script>
+    <link href="../bower_components/vis/dist/vis.css" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        #mynetwork {
+            width: 600px;
+            height: 400px;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+
+<p>
+    Create a simple network with some nodes and edges.
+</p>
+
+<div id="mynetwork"></div>
+
+<script type="text/javascript">
+    // create an array with nodes
+    var nodes = new vis.DataSet([
+        {id: 1, label: 'Node 1'},
+        {id: 2, label: 'Node 2'},
+        {id: 3, label: 'Node 3'},
+        {id: 4, label: 'Node 4'},
+        {id: 5, label: 'Node 5'}
+    ]);
+
+    // create an array with edges
+    var edges = new vis.DataSet([
+        {from: 1, to: 3},
+        {from: 1, to: 2},
+        {from: 2, to: 4},
+        {from: 2, to: 5}
+    ]);
+
+    // create a network
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    //var options = {};
+    var options = {
+        edges:{
+            arrows: {
+                to:     {enabled: false, scaleFactor:1},
+                middle: {enabled: false, scaleFactor:1},
+                from:   {enabled: false, scaleFactor:1}
+            },
+            arrowStrikethrough: true,
+            color: {
+                color:'#848484',
+                highlight:'#848484',
+                hover: '#848484',
+                inherit: 'from',
+                opacity:1.0
+            },
+            dashes: false,
+            font: {
+                color: '#343434',
+                size: 14, // px
+                face: 'arial',
+                background: 'none',
+                strokeWidth: 2, // px
+                strokeColor: '#ffffff',
+                align:'horizontal'
+            },
+            hidden: false,
+            hoverWidth: 1.5,
+            label: undefined,
+            labelHighlightBold: true,
+            length: undefined,
+            physics: true,
+            scaling:{
+                min: 1,
+                max: 15,
+                label: {
+                    enabled: true,
+                    min: 14,
+                    max: 30,
+                    maxVisible: 30,
+                    drawThreshold: 5
+                },
+                customScalingFunction: function (min,max,total,value) {
+                    if (max === min) {
+                        return 0.5;
+                    }
+                    else {
+                        var scale = 1 / (max - min);
+                        return Math.max(0,(value - min)*scale);
+                    }
+                }
+            },
+            selectionWidth: 1,
+            selfReferenceSize:20,
+            shadow:{
+                enabled: false,
+                color: 'rgba(0,0,0,0.5)',
+                size:10,
+                x:5,
+                y:5
+            },
+            smooth: {
+                enabled: true,
+                type: "dynamic",
+                roundness: 0.5
+            },
+            title:undefined,
+            width: 1,
+            value: undefined
+        }
+    }
+
+    var network = new vis.Network(container, data);
+    network.setOptions(options);
+    /*var sum = 12;
+    function test (sum){
+        return sum = sum+2;
+        //console.log(sum);
+    }
+    test(sum);
+    function test2 (sum){
+        return sum = sum+2;
+        //console.log(sum);
+    }
+    test2(sum);*/
+
+    var arr = ['1','ad','sd','ds','sd','ad','2','ds',1,2];
+
+    /*function unique2(array){
+        var n = {}, r = [], len = array.length, val, type;
+        for (var i = 0; i < array.length; i++) {
+            val = array[i];
+            type = typeof val;
+            if (!n[val]) {
+                n[val] = [type];
+                r.push(val);
+            } else if (n[val].indexOf(type) < 0) {
+                n[val].push(type);
+                r.push(val);
+            }
+        }
+        return r;
+    }
+
+    unique2(arr);*/
+    function unique5(array){
+        var r = [];
+        for(var i = 0, l = array.length; i < l; i++) {
+            for(var j = i + 1; j < l; j++)
+                if (array[i] === array[j]) j = ++i;
+            r.push(array[i]);
+        }
+        return r;
+    }
+    unique5(arr);
+</script>
+
+<script src="../googleAnalytics.js"></script>
+</body>
+</html>

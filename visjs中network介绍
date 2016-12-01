@@ -1,0 +1,27 @@
+1.netWork是一个由节点和边组成的一个可视化的canvas。可以很容易的自定义形状，风格，颜色，大小，图片。
+这种可视化的网络可以平滑的在现代浏览器中展示几千个节点和边信息。并且为了处理这个数量的节点，netWork特意添加了集群支持。
+netWork是通过html中的标签在浏览器中渲染的。
+
+在4.0版本以上，network有一些特定模块组成，这些模块用来处理network的域模块相关的特定板块。这些文档有他们自己的文档，
+options，methods，and events.这些东西将会在下面具体介绍。
+在network下有8个模块：分别为：
+configure，edges,nodes,groups,interaction,layout,manipulation,physics.
+
+这些模块的功能分别是什么？
+
+configure:生成一个交互式选项编辑器和过滤器。
+
+edges：处理变得创建，并且包含边的全局边的options和style。
+
+nodes：处理节点的创建和删除，并且包含全局节点的options和style。
+
+groups：包含了groups和一些options，这些options是用来处理那些不存在groups的nodes。
+
+interaction：用来给用户和network交互的一个模块。处理鼠标和touch事件，选择以及导航按钮,弹出窗口。
+
+layout:控制初始和层次定位。
+
+manipulation:提供了一个API和可选的GUI来改变network中的数据。
+
+
+

@@ -1,0 +1,99 @@
+工作上要画关系图用了这个,和它也相处了几个星期了,简单总结一下.
+
+这是一个进行数据可视化用的js，可以在div内画出2/3维图表，关系图，时间轴。我主要拿来画关系图，所以就讲这一功能。
+
+首先我并没有什么选择它的特别理由，上头说这玩意儿不错就去研究了，同样是进行数据可视化的还有d3.js，但我没用过,所以我也不能说哪个更好。
+
+个人感觉vis.js还是简单易懂的，动态添加节点很方便，但是删除更改某个节点还需自己遍历一遍节点集，想要的功能基本上也有，
+
+总的来说基本功扎实，但不是随心所欲的程度，在原来的基础上增加功能可能要去修改vis。
+想看demo的话官网上的这里有（http://visjs.org/network_examples.html）取了一张截图：图一.png
+
+接上篇，首先html部分只要有一个div就可以了，自己指定大小宽度。
+
+<div id="vis" name="vis" style="height:700px;width:100%;border: 1px solid lightgray;"></div>
+剩下的工作都在js里完成.
+
+首先js里定义3个对象nodes, edges和 network分别代表存放所有节点的对象，存放所有线的对象还有关系图对象.
+
+nodes和edges建议初始化为专用的visDataSet对象.
+
+nodes = new vis.DataSet();
+edges = new vis.DataSet();
+
+这样可以使用add，remove以及各种遍历查询等方法.
+
+接着往nodes和edges里面添加节点和线的对象.
+
+// create an array with nodes
+	var nodes1 = [
+		{id: 1, label: 'Node 1',color: 'lime'},
+		{id: 2, label: 'Node 2',color: 'rgb(255,168,7)'},
+		{id: 3, label: 'Node 3',color: '#7BE141'},
+		{id: 4, label: 'Node 4',color: 'rgba(97,195,238,0.5)'},
+		{id: 5, label: 'Node 5',color: {background:'pink', border:'purple'}}
+	];
+
+	// create an array with edges
+	var edges1 = [
+		{id:'1->3',from: 1, to: 3,label:'Edge 1->3'},
+		{id:'1->2',from: 1, to: 2,label:'Edge 1->2'},
+		{id:'2->4',from: 2, to: 4,label:'Edge 2->4'},
+		{id:'2->5',from: 2, to: 5,label:'Edge 2->5'}
+	];
+
+	// create a network
+	var container = document.getElementById('network');
+
+	nodes.add(nodes1);
+	edges.add(edges1);
+
+    nodes[0].hidden = 'true';
+	try{
+		visNodes.update(nodes[0]);
+	} catch(err){
+		alert(err);
+	}
+
+	我是用的方法是定义一个var obj = new Object();
+
+    然后更改变节点或是线的属性(id为必填项且唯一，不能有相同id的两个节点或两条线，但可以有相同id的节点和线)
+
+    例如改变label的值就执行obj["label"] = "label";
+
+    具体哪些属性可以修改可以参考下面的地址
+    http://visjs.org/docs/network/nodes.html http://visjs.org/docs/network/edges.html
+    改好节点/边的属性后就用add方法添加进nodes和edges
+
+    <pre name="code" class="javascript">try {
+    	nodes.add(obj);
+    }
+    catch (err) {
+    	alert(err);
+    }
+
+    建议用try，catch，那样出现错误（例如id重复时可以进行错误管理）做好nodes和edges后就可以使用如下语句画出图像来
+
+    <span style="white-space:pre">	</span>var container = document.getElementById("vis");
+
+    	var data = {
+    	<span style="white-space:pre">	</span>nodes: nodes,
+    	<span style="white-space:pre">	</span>edges: edges
+    	};
+
+    	var visOptions = {};
+
+    	network = new vis.Network(container, data, visOptions);
+
+    	首先container是放置图像的容器，从html获得，找那个div就行
+
+        visOptions是进行设置用的，这里用空，即默认设置
+
+        执行到这里页面上就有关系图了，拉来拉去挺好玩的，下一篇讲一下设置更改以及添加事件函数的方法。
+
+上一篇讲了添加节点，边并进行绘画。这里讲讲更改设置以及添加事件响应。
+
+说实话设置部分我不想讲多少，这里的文档挺给力的http://visjs.org/docs/network/我要讲的话估计得一个个分析过来，有点懒得_(:з」∠)_
+
+这里贴一个我使用的配置，然后简单讲解一下.
+
